@@ -1,26 +1,34 @@
 # syntax=docker/dockerfile:experimental
+
 # Ubuntu 20.04 Base Docker Image (Development)
 # Copyright © 2020 Jerod Gawne <https://github.com/jerodg>
-
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
 # published by the Free Software Foundation, either version 3 of the
 # License, or (at your option) any later version.
-
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
-
+#
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-# LABEL maintainer="Jerod Gawne <https://github.com/jerodg>"
 FROM --platform=linux/amd64 ubuntu:focal
 
 
-# Use For Development; Keeps the Container Running
-ENTRYPOINT exec /bin/sh -c
+
+# Update Everything
+COPY ./cfg/sources.list /etc/apt/sources.list
+RUN apt-get update
+RUN apt-get full-upgrade -y
+
+
+# Install Dev-Tools
+RUN apt-get -y install \
+    openssh-server
+COPY ./cfg/sshd_config /etc/ssh/sshd_config
 
 
 # Tweaks/Fixes From Canonical
@@ -61,18 +69,6 @@ RUN set -xe \
 RUN mkdir -p /run/systemd && echo 'docker' > /run/systemd/container
 
 
-# Update Everything
-COPY ./cfg/sources.list /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get full-upgrade -y
-
-
-# Install Dev-Tools
-RUN apt-get -y install \
-    openssh-server
-COPY ./cfg/sshd_config /etc/ssh/sshd_config
-
-
 # Cleanup
 RUN rm -rf /tmp/*
 RUN apt-get autoclean
@@ -81,3 +77,8 @@ RUN apt-get autoremove
 
 LABEL version=""
 LABEL maintainer=""
+
+EXPOSE 2222/tcp
+
+# Use For Development; Keeps the Container Running
+ENTRYPOINT ["/bin/sh", "-c"]

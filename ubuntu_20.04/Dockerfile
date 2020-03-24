@@ -14,13 +14,13 @@
 
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-# LABEL maintainer="Jerod Gawne <https://github.com/jerodg>"
 FROM --platform=linux/amd64 ubuntu:focal
 
 
-# Use For Development; Keeps the Container Running
-ENTRYPOINT exec /bin/sh -c
+# Update Everything
+COPY ./cfg/sources.list /etc/apt/sources.list
+RUN apt-get update
+RUN apt-get full-upgrade -y
 
 
 # Tweaks/Fixes From Canonical
@@ -59,18 +59,6 @@ RUN set -xe \
 
 # make systemd-detect-virt return "docker" <https://github.com/systemd/systemd/blob/aa0c34279ee40bce2f9681b496922dedbadfca19/src/basic/virt.c#L434>
 RUN mkdir -p /run/systemd && echo 'docker' > /run/systemd/container
-
-
-# Update Everything
-COPY ./cfg/sources.list /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get full-upgrade -y
-
-
-# Install Dev-Tools
-RUN apt-get -y install \
-    openssh-server
-COPY ./cfg/sshd_config /etc/ssh/sshd_config
 
 
 # Cleanup
