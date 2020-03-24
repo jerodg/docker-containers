@@ -1,4 +1,4 @@
-# Ubuntu 19.10 w/ Shared & Optimized Python 3.8.2 from Source
+# Ubuntu 19.10 w/ Shared & Optimized Python 3.8.2
 # Copyright © 2020 Jerod Gawne <https://github.com/jerodg>
 
 # This program is free software: you can redistribute it and/or modify
@@ -18,35 +18,46 @@ FROM jerodg/ubuntu_1910_base:20200306
 
 # Install Pre-Requisites
 RUN apt-get update
+RUN apt-get full-upgrade
+
 # OS
 RUN apt-get -y install \
-                    wget \
-                    build-essential
+    wget \
+    build-essential
 # Python
+# Todo: Verify Libraries
 RUN apt-get -y install \
-                    binutils \
-                    freetds-dev \
-                    libbz2-dev \
-                    libdb5.3-dev \
-                    libexpat1-dev \
-                    libffi-dev \
-                    libgdbm-dev \
-                    libkrb5-dev \
-                    liblzma-dev \
-                    libncurses5-dev \
-                    libncursesw5-dev \
-                    libreadline-dev \
-                    libsqlite3-dev \
-                    libssl-dev \
-                    libxml2-dev \
-                    libxslt1-dev \
-                    python3-pytest-xvfb \
-                    python3-pyvirtualdisplay \
-                    python3-xvfbwrapper \
-                    uuid-dev \
-                    xvfb \
-                    xz-utils \
-                    zlib1g-dev
+    binutils \
+    cython3 \
+    debhelper-compat \
+    dh-python \
+    freetds-dev \
+    libb2-dev \
+    libbz2-dev \
+    libdb5.3-dev \
+    libexpat1-dev \
+    libffi-dev \
+    libgdbm-dev \
+    libkrb5-dev \
+    liblzma-dev \
+    libncurses5-dev \
+    libncursesw5-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    libssl-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    libzfslinux-dev \
+    python3-all-dev \
+    python3-pytest-xvfb \
+    python3-pyvirtualdisplay \
+    python3-setuptools \
+    python3-testresources \
+    python3-xvfbwrapper \
+    uuid-dev \
+    xvfb \
+    xz-utils \
+    zlib1g-dev
 
 # Get Source
 WORKDIR /tmp
@@ -69,41 +80,12 @@ RUN ln -s /usr/local/bin/python3.8 python
 RUN ln -s /usr/local/bin/pip3.8 pip
 
 # Update Core Python Packages
-RUN pip install pip setuptools --upgrade
+RUN pip install --upgrade pip setuptools
 
 # Cleanup
 RUN rm -rf /tmp/*
-
-# If you aren't going to be building python packages from source you can remove the build tools and libraries.
-# RUN apt-get -y remove \
-#                     binutils \
-#                     build-essential \
-#                     freetds-dev \
-#                     libbz2-dev \
-#                     libdb5.3-dev \
-#                     libexpat1-dev \
-#                     libffi-dev \
-#                     libgdbm-dev \
-#                     libkrb5-dev \
-#                     liblzma-dev \
-#                     libncurses5-dev \
-#                     libncursesw5-dev \
-#                     libreadline-dev \
-#                     libsqlite3-dev \
-#                     libssl-dev \
-#                     libxml2-dev \
-#                     libxslt1-dev \
-#                     python3-pytest-xvfb \
-#                     python3-pyvirtualdisplay \
-#                     python3-xvfbwrapper \
-#                     uuid-dev \
-#                     wget \
-#                     xvfb \
-#                     xz-utils \                  
-#                     zlib1g-dev
-
-RUN apt-get autoremove
 RUN apt-get autoclean
+RUN apt-get autoremove
 
 # Use For Development; Keeps the Container Running
 # CMD ["/bin/bash", "-c", "while true; do sleep 1; done"]

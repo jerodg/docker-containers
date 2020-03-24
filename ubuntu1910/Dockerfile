@@ -59,11 +59,11 @@ RUN mkdir -p /run/systemd && echo 'docker' > /run/systemd/container
 COPY ./cfg/sources.list /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get full-upgrade -y
-RUN apt-get autoclean
-RUN apt-get autoremove
 
 # Cleanup
 RUN rm -rf /tmp/*
+RUN apt-get autoclean
+RUN apt-get autoremove
 
 # Use For Development; Keeps the Container Running
 # CMD ["/bin/bash", "-c", "while true; do sleep 1; done"]
