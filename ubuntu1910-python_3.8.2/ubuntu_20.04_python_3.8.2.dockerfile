@@ -14,20 +14,13 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-FROM jerodg/ubuntu_1910_base:20200306
+FROM jerodg/base:ubuntu_20.04-2020.03.27
 
-# Install Pre-Requisites
-RUN apt-get update
-RUN apt-get full-upgrade
-
-# OS
-RUN apt-get -y install \
-    wget \
-    build-essential
 # Python
 # Todo: Verify Libraries
 RUN apt-get -y install \
     binutils \
+    build-essential \
     cython3 \
     debhelper-compat \
     dh-python \
@@ -55,6 +48,7 @@ RUN apt-get -y install \
     python3-testresources \
     python3-xvfbwrapper \
     uuid-dev \
+    wget \
     xvfb \
     xz-utils \
     zlib1g-dev
@@ -88,4 +82,4 @@ RUN apt-get autoclean
 RUN apt-get autoremove
 
 # Use For Development; Keeps the Container Running
-# CMD ["/bin/bash", "-c", "while true; do sleep 1; done"]
+# # ENTRYPOINT ["/bin/bash", "-c", "while true; do sleep 1; done"]
