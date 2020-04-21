@@ -18,14 +18,6 @@
 
 FROM --platform=linux/amd64 ubuntu:focal
 
-RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment
-RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
-RUN echo "LANG=en_US.UTF-8" > /etc/locale.conf
-
-ENV LANG=en_US.UTF-8
-ENV LANGUAGE=en_US.UTF-8
-# bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
-ENV LC_ALL=en_US.UTF-8
 ENV TZ=UTC
 
 # Update Everything
