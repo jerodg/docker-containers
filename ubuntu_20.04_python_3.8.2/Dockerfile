@@ -71,7 +71,7 @@ RUN tar xf Python-3.8.2.tgz
 WORKDIR /tmp/Python-3.8.2
 RUN ./configure --enable-optimizations --enable-shared
 RUN make -j$(($(nproc) / 2) - 1)
-RUN make install
+RUN make -j$(($(nproc) / 2) - 1) install
 
 # Configure Shared Link Library
 RUN strip /usr/local/lib/libpython3.8.so.1.0
