@@ -70,7 +70,7 @@ RUN tar xf Python-3.8.2.tgz
 # Build Source
 WORKDIR /tmp/Python-3.8.2
 RUN ./configure --enable-optimizations --enable-shared
-RUN make
+RUN make -j$(($(nproc) / 2) - 1)
 RUN make install
 
 # Configure Shared Link Library
