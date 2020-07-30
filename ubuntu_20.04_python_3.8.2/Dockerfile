@@ -15,10 +15,11 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-FROM jerodg/base:ubuntu_20.04-2020.03.29
+FROM jerodg/base:ubuntu-20.04_2020.04.20
 
 
 # Prequisites
+RUN apt-get update
 RUN apt-get -y install tzdata
 RUN echo "UTC" > /etc/timezone
 RUN rm -f /etc/localtime
@@ -26,7 +27,6 @@ RUN dpkg-reconfigure -f noninteractive tzdata
 
 
 # Python
-# Todo: Verify Libraries
 RUN apt-get -y install \
     binutils \
     build-essential \
@@ -89,6 +89,13 @@ RUN pip install --upgrade pip setuptools
 RUN rm -rf /tmp/*
 RUN apt-get autoclean
 RUN apt-get autoremove
+
+LABEL org.opencontainers.image.vendor="Mhi Inc."
+LABEL org.opencontainers.image.url=https://jerodg.dev
+LABEL org.opencontainers.image.title="Ubuntu 20.04 w/Python 3.8.2"
+LABEL org.opencontainers.image.description="Ubuntu 20.04 Base Docker Image Optimized for Containers w/Python 3.8.2"
+LABEL org.opencontainers.image.version=1.1.0
+LABEL org.opencontainers.image.documentation=https://github.com/jerodg
 
 # Use For Development; Keeps the Container Running
 # ENTRYPOINT ["/bin/bash", "-c", "while true; do sleep 1; done"]

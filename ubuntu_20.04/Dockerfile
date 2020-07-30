@@ -18,8 +18,6 @@
 
 FROM --platform=linux/amd64 ubuntu:focal
 
-ENV TZ=UTC
-
 # Update Everything
 COPY ./cfg/sources.list /etc/apt/sources.list
 RUN apt-get update
@@ -30,9 +28,12 @@ RUN rm -rf /tmp/*
 RUN apt-get autoclean
 RUN apt-get autoremove
 
-LABEL version="1.0.0"
-LABEL maintainer="Jerod Gawne <https://github.com/jerodg>"
-
+LABEL org.opencontainers.image.vendor="Mhi Inc."
+LABEL org.opencontainers.image.url=https://jerodg.dev
+LABEL org.opencontainers.image.title="Ubuntu 20.04"
+LABEL org.opencontainers.image.description="Ubuntu 20.04 Base Docker Image Optimized for Containers"
+LABEL org.opencontainers.image.version=1.1.0
+LABEL org.opencontainers.image.documentation=https://github.com/jerodg
 
 # Use For Development; Keeps the Container Running
 # ENTRYPOINT ["/bin/bash", "-c", "while true; do sleep 1; done"]
